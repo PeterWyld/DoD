@@ -47,12 +47,13 @@ public class HumanPlayer extends Player {
     @Override
     protected void see(char[][] map) {
     	display.displayMap(canSee(map));
-		return map;
     }
 
     protected int getGold() {
     	return gold;
     }
 
-    
+    protected void addGold() {
+    	gold += 1;
+    }
 }

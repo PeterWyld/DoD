@@ -9,4 +9,12 @@ public class Display {
     		System.out.println();
     	}
 	}
+	
+	public void dispSuccessOrFail(boolean isSuccessful) {
+		if(isSuccessful) {
+			System.out.print("SUCCESS");
+		} else {
+			System.out.print("FAIL");
+		}
+	}
 }

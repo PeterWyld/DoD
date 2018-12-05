@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -79,24 +80,9 @@ public class Map {
 		return player;
 	}
 	
-	public boolean movePlayer(String direction, Player player) {
-		int incrementX = 0;
-		int incrementY = 0;
-		switch(direction) {
-		case "N": 
-			incrementY = 1;
-			break;
-		case "E":
-			incrementX = 1;
-			break;
-		case "S":
-			incrementY = -1;
-			break;
-		case "W":
-			incrementX = -1;
-			break;
-		}
-		if(isMovable)
+	public char getCharAtPos(int x, int y, ArrayList<Player> players) {
+		char[][] mapWithPlayers = getMapWithPlayers(players);
+		return mapWithPlayers[x][y];
 	}
 
     /**
@@ -110,15 +96,7 @@ public class Map {
      * @return : The map as stored in memory.
      */
     protected char[][] getMap() {
-    	char[][] outputMap = map;
-    	for(int x = 0; x <= map.length -1; x++) {
-    		for(int y = 0; y <= map[0].length-1; y++) {
-    			if(playerMap[x][y] != 'X') {
-    				outputMap[x][y] = playerMap[x][y];
-    			}
-    		}
-    	}
-        return outputMap;
+        return map;
     }
     
     /**
@@ -220,6 +198,30 @@ public class Map {
 	    	this.mapName = newMapName;
 	    	this.goldRequired = newGoldRequired;
 	    	this.map = newMap;
+    	}
+    }
+    
+    protected char[][] getMapWithPlayers(ArrayList<Player> players) {
+    	char[][] mapWithPlayers= new char[map.length][map[0].length];
+    	Player player;
+    	for(int i = 0; i <= map.length -1; i++) {
+    		mapWithPlayers[i] = map[i].clone();
+    	}
+    	
+    	for(int i = 0; i <= players.size() -1; i++) {
+    		player = players.get(i);
+    		mapWithPlayers[player.getX()][player.getY()] = player.mapChar;
+    	}
+    	
+    	return mapWithPlayers;
+    }
+    
+    protected boolean pickupGold(int x, int y) {
+    	if (map[x][y] == 'G') {
+    		map[x][y] = '.';
+    		return true;
+    	} else {
+    		return false;
     	}
     }
 
