@@ -7,6 +7,7 @@ public class Player {
 	private int xPos;
 	private int yPos;
 	protected char mapChar = 'A';
+	private final char OUTSIDEOFMAPCHAR
     /**
      * Processes the command. It should return a reply in form of a String, as the protocol dictates.
      * Otherwise it should return the string "Invalid".
@@ -24,12 +25,21 @@ public class Player {
         return null;
     }
     
-    protected char[][] see(char[][] map) {
+    protected void setXY(int x, int y) {
+    	this.xPos = x;
+    	this.yPos = y;
+    }
+    
+    protected void see(char[][] map) {
+    	
+    }
+    
+    private char[][] canSee(char[][] map) {
     	char[][] seeMap = new char[2*sight +1][2*sight +1];
     	for (int i = 0; i <= 2*sight; i++) {
     		for (int j = 0; j <= 2*sight; j++) {
     			if (map.length > xPos-sight+i && xPos-sight+i >= 0 &&
-    					map[i].length > yPos-sight+j && yPos-sight+j >= 0) {
+    					map[0].length > yPos-sight+j && yPos-sight+j >= 0) {
     				
     				seeMap[i][j] = map[xPos-sight+i][yPos-sight+j];
     			} else {

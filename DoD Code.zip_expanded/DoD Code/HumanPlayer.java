@@ -45,8 +45,8 @@ public class HumanPlayer extends Player {
     }
     
     @Override
-    protected char[][] see(char[][] map) {
-    	display.displayMap(super.see(map));
+    protected void see(char[][] map) {
+    	display.displayMap(canSee(map));
 		return map;
     }
 

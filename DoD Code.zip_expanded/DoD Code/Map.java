@@ -66,17 +66,37 @@ public class Map {
 		setMap(fileName);
 	}
 	
-	protected void initialiseMap(Player[] players) {
+	protected Player addPlayerToMap(Player player) {
 		Random rand = new Random();
 		int x = 0;
 		int y = 0;
-		for(int i = 0; i <= players.length-1; i++) {
-			x = rand.nextInt(map.length-1);
-			y = rand.nextInt(map[0].length-1);
-			if(map[x][y] != '#' && map[x][y] != 'E' && playerMap[x][y] == 'X') {
-				playerMap[x][y] = players[i].getMapChar();
-			}
+		x = rand.nextInt(map.length-1);
+		y = rand.nextInt(map[0].length-1);
+		if(map[x][y] != '#' && map[x][y] != 'E' && playerMap[x][y] == 'X') {
+			playerMap[x][y] = player.getMapChar();
 		}
+		player.setXY(x, y);
+		return player;
+	}
+	
+	public boolean movePlayer(String direction, Player player) {
+		int incrementX = 0;
+		int incrementY = 0;
+		switch(direction) {
+		case "N": 
+			incrementY = 1;
+			break;
+		case "E":
+			incrementX = 1;
+			break;
+		case "S":
+			incrementY = -1;
+			break;
+		case "W":
+			incrementX = -1;
+			break;
+		}
+		if(isMovable)
 	}
 
     /**
@@ -90,10 +110,17 @@ public class Map {
      * @return : The map as stored in memory.
      */
     protected char[][] getMap() {
-        return map;
+    	char[][] outputMap = map;
+    	for(int x = 0; x <= map.length -1; x++) {
+    		for(int y = 0; y <= map[0].length-1; y++) {
+    			if(playerMap[x][y] != 'X') {
+    				outputMap[x][y] = playerMap[x][y];
+    			}
+    		}
+    	}
+        return outputMap;
     }
-
-
+    
     /**
      * @return : The name of the current map.
      */
