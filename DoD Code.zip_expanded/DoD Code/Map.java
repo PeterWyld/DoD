@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -67,6 +68,10 @@ public class Map {
 		setMap(fileName);
 	}
 	
+	public Map(File fileName) {
+		setMap(fileName);
+	}
+	
 	protected Player addPlayerToMap(Player player) {
 		Random rand = new Random();
 		int x = 0;
@@ -105,14 +110,16 @@ public class Map {
     protected String getMapName() {
         return mapName;
     }
-
-
-    /**
-     * Reads the map from file.
-     *
-     * @param : Name of the map's file.
-     */
+    
+    protected void setMap(File mapFile) {
+    	readMap(mapFile);
+    }
+    
     protected void setMap(String fileName) {
+    	setMap(new File(fileName));
+    }
+    
+    protected void readMap(File mapFile) {
     	char[][] newMap = new char[0][0];
     	FileReader fileReader = null;
     	BufferedReader lineReader = null;
@@ -122,10 +129,12 @@ public class Map {
 		int longestLine = 0;
 		String newMapName = "";
 		int newGoldRequired = 0;
+		int startGoldReqIndex = 0;
+		boolean foundStartGoldReqIndex = false;
 		boolean valid = true;
     	
     	try {
-			fileReader = new FileReader(fileName);
+			fileReader = new FileReader(mapFile);
 			lineReader = new BufferedReader(fileReader);
 					
 			if ((line = lineReader.readLine()) != null) {
@@ -135,7 +144,16 @@ public class Map {
 			}
 			
 			if ((line = lineReader.readLine()) != null) {
-				newGoldRequired = Utilities.parseIntDefault(line.substring(line.length() -1), 0);
+				startGoldReqIndex = line.length() - 1;
+				while(startGoldReqIndex >= 0 && !foundStartGoldReqIndex) {
+					try {
+						Integer.parseInt(line.substring(startGoldReqIndex, line.length() -1));
+						startGoldReqIndex--;
+					} catch (NumberFormatException e) {
+						foundStartGoldReqIndex = true;
+					}
+				}
+				newGoldRequired = Utilities.parseIntDefault(line.substring(startGoldReqIndex), 0);
 			} else {
 				//send error to user via display
 			}
@@ -157,7 +175,7 @@ public class Map {
 			newMap = new char[longestLine][numbOfLines];
 			
 			//resetting the file and line Reader so that they start the file again
-			fileReader = new FileReader(fileName);
+			fileReader = new FileReader(mapFile);
 			lineReader = new BufferedReader(fileReader);
 			//go past the first two lines (the name and gold required)
 			lineReader.readLine();
@@ -223,7 +241,7 @@ public class Map {
     	} else {
     		return false;
     	}
-    }
+    }	
 
 
 }

@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -15,6 +16,11 @@ public class GameLogic {
 	 */
 	public GameLogic() {
 		map = new Map();
+		initialiseGame();
+	}
+	
+	public GameLogic(File mapFile) {
+		map = new Map(mapFile);
 		initialiseGame();
 	}
 
