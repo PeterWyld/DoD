@@ -39,7 +39,7 @@ public class GameLogic {
     }
     
     public void initialiseGame() {
-    	addPlayer(new HumanPlayer(7, 0, 0));
+    	addPlayer(new HumanPlayer(9, 0, 0));
     }
     
     protected void gameLoop() {

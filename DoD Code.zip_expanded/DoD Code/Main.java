@@ -1,9 +1,10 @@
+
 public class Main {
 	public static void main(String[] args) {
 //		Map map = new Map();
 //		map.setMap("Maps\\map.txt");
 //		System.out.println(Arrays.deepToString(map.getMap()));
-		
+
 		Menu menu = new Menu();
 		GameLogic game;
 		
