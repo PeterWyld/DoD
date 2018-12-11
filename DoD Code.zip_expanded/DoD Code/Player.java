@@ -15,10 +15,10 @@ public class Player {
      * @return : Processed output or Invalid if the @param command is wrong.
      */
 	
-	public Player(int sight, int xPos, int yPos) {
+	public Player(int sight) {
 		this.sight = sight;
-		this.xPos = xPos;
-		this.yPos = yPos;
+		this.xPos = 0;
+		this.yPos = 0;
 	}
 	
     protected String getNextAction() {

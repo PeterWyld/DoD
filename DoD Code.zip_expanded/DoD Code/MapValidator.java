@@ -39,7 +39,52 @@ public class MapValidator {
 			map = addWalls(map);
 		}
 		
+		if(!hasEnoughGold(map, goldRequired)) {
+			addGold(map, goldRequired);
+		}
+		
+		if(!hasExit(map)) {
+			addExit(map);
+		}
 		return newMap;
+	}
+	
+	private char[][] addGold(char[][] map, int goldRequired) throws MapUnfixableException {
+		int goldOnMap = 0;
+		for(int i = 0; i <= map.length -1; i++) {
+			for(int j = 0; j <= map[0].length -1; j++) {
+				if(map[i][j] == '.') {
+					map[i][j] = 'G';
+					goldOnMap++;
+				} else if (map[i][j] == 'G') {
+					goldOnMap++;
+				}
+			}
+		}
+		
+		if(goldOnMap < goldRequired) {
+			throw new MapUnfixableException();
+		} else {
+			return map;
+		}
+	}
+	
+	private char[][] addExit(char[][] map) throws MapUnfixableException {
+		boolean addedExit = false;
+		for(int i = 0; i <= map.length -1; i++) {
+			for(int j = 0; j <= map[0].length -1 && !addedExit; j++) {
+				if(map[i][j] == '.') {
+					map[i][j] = 'E';
+					addedExit = true;
+				}
+			}
+		}
+		
+		if(addedExit) {
+			return map;
+		} else {
+			throw new MapUnfixableException();
+		}
 	}
 	
 	private char[][] forceRectangle(char[][] map) {

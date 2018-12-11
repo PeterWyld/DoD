@@ -10,6 +10,7 @@ public class GameLogic {
 	private Map map;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	private Display disp = new Display();
+
 	
 	/**
 	 * Default constructor
@@ -33,13 +34,9 @@ public class GameLogic {
         return false;
     }
     
-    protected void addPlayer(Player newPlayer) {
-    	newPlayer = map.addPlayerToMap(newPlayer);
-    	players.add(newPlayer);
-    }
-    
     public void initialiseGame() {
-    	addPlayer(new HumanPlayer(9, 0, 0));
+    	players.add(new HumanPlayer(9));
+    	map.addPlayersToMap(players);
     }
     
     protected void gameLoop() {

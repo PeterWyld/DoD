@@ -17,8 +17,8 @@ public class HumanPlayer extends Player {
      * @return : A string containing the input the player entered.
      */
 	
-	public HumanPlayer(int sight, int xPos, int yPos) {
-		super(sight, xPos, yPos);
+	public HumanPlayer(int sight) {
+		super(sight);
 		mapChar = 'P';
 	}
 	

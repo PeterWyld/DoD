@@ -12,50 +12,43 @@ public class Menu {
 	private boolean starting = false;
 
 	public Menu() {
-		
+
 	}
-	
+
 	public void displayMenu() {
 		switch (menuState) {
 		case 0:
 			displayMainMenu();
 			break;
-		case 1: 
+		case 1:
 			displayMapMenu();
-			break;
-		case 2:
-			displayOptionsMenu();
 			break;
 		}
 	}
-	
+
 	private void displayMainMenu() {
-		final String[] mainOptions = {"Start Game", "Select Map", "Options", "Exit"};
+		final String[] mainOptions = { "Start Game", "Select Map", "Exit" };
 		printOptions(mainOptions);
-		switch(getIntInput()) {
+		switch (getIntInput()) {
 		case 0:
 			starting = true;
-			System.out.println("a");
 			break;
 		case 1:
 			menuState = 1;
-			break;
-		case 2:
-			menuState = 2;
 			break;
 		case 3:
 			System.exit(0);
 		}
 	}
-	
+
 	private void displayMapMenu() {
 		File[] maps = (new File("Maps")).listFiles();
 		String[] options = new String[maps.length + 1];
 		int input = 0;
 		String line = "";
 		BufferedReader lineReader;
-		
-		for(int i = 0; i <= maps.length-1; i++) {
+
+		for (int i = 0; i <= maps.length - 1; i++) {
 			try {
 				lineReader = new BufferedReader(new FileReader(maps[i]));
 				line = lineReader.readLine();
@@ -63,28 +56,28 @@ public class Menu {
 					options[i] = line.substring(5);
 				} else {
 					options[i] = "(Incorrect Formatting) " + line;
-				}				
+				}
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				
+
 			}
 		}
 		options[maps.length] = "Back to Menu";
 		printOptions(options);
 		input = getIntInput();
-		if(input == options.length -1) {
+		if (input == options.length - 1) {
 			menuState = 0;
 		} else {
 			try {
-				lineReader = new BufferedReader(new FileReader(options[input]));
-				while((line = lineReader.readLine()) != null) {
+				lineReader = new BufferedReader(new FileReader(maps[input]));
+				while ((line = lineReader.readLine()) != null) {
 					System.out.println(line);
 				}
-				printOptions(new String[]{"Yes", "No"});
+				printOptions(new String[] { "Yes", "No" });
 				lineReader.close();
-				if (getIntInput() == 0) { //Yes
+				if (getIntInput() == 0) { // Yes
 					menuState = 0;
 					mapFile = maps[input];
 				}
@@ -93,17 +86,31 @@ public class Menu {
 			} catch (IOException e) {
 				System.out.println("Input/Output error has occured");
 			}
- 		}
+		}
 	}
-	
-	private void displayMapAdder() {
-		
-	}
-	
-	private void displayOptionsMenu() {
-		menuState = 0;
-	}
-	
+
+//	private void displayMapAdder() {
+//		FileWriter fileWriter;
+//		BufferedWriter writer;
+//		String line = "";
+//		File file;
+//		
+//		try {
+//			System.out.println("Please type in the name of the map");
+//			line = reader.readLine();
+//			while() {
+//				
+//			}
+//			System.out.println();
+//			System.out.println("Please, write out/paste in, the map on the console and write DONE (case sensitive) on a newline to finish");
+//			while(!(line = reader.readLine()).equals("DONE")) {
+//				
+//			}
+//		} catch (IOException e) {
+//			
+//		}
+//	}
+
 	private int getIntInput() {
 		boolean gotInt = false;
 		int output = 0;
@@ -123,17 +130,17 @@ public class Menu {
 		}
 		return output;
 	}
-	
+
 	private void printOptions(String[] options) {
-		for (int i = 0; i <= options.length -1; i++) {
+		for (int i = 0; i <= options.length - 1; i++) {
 			System.out.println(i + "> " + options[i]);
 		}
 	}
-	
+
 	public boolean pressedStart() {
 		return starting;
 	}
-	
+
 	public File getMapFile() {
 		return mapFile;
 	}

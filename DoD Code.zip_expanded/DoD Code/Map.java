@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -21,8 +20,6 @@ public class Map {
 	
 	/* Gold required for the human player to win */
 	private int goldRequired;
-	
-	private char[][] playerMap;
 	
 	/**
 	 * Default constructor, creates the default map "Very small Labyrinth of doom".
@@ -51,12 +48,6 @@ public class Map {
 		{'#','.','.','.','.','.','.','.','#'},
 		{'#','#','#','#','#','#','#','#','#'}
 		};
-		
-		playerMap = new char[map.length][map[0].length];
-		
-		for(int i = 0; i <= playerMap.length -1; i++) {
-			Arrays.fill(playerMap[i], 'X');
-		}
 	}
 	
 	/**
@@ -72,17 +63,30 @@ public class Map {
 		setMap(fileName);
 	}
 	
-	protected Player addPlayerToMap(Player player) {
+	protected void addPlayersToMap(ArrayList<Player> players) {
 		Random rand = new Random();
 		int x = 0;
 		int y = 0;
-		x = rand.nextInt(map.length-1);
-		y = rand.nextInt(map[0].length-1);
-		if(map[x][y] != '#' && map[x][y] != 'E' && playerMap[x][y] == 'X') {
-			playerMap[x][y] = player.getMapChar();
+		boolean gotPlace = false;
+		for(int i = 0; i <= players.size() -1; i++) {
+			while(!gotPlace) {
+				x = rand.nextInt(map.length-1);
+				y = rand.nextInt(map[0].length-1);
+				if(map[x][y] != '#' && map[x][y] != 'E' && noPlayersOnSpace(players, x, y)) {
+					players.get(i).setXY(x, y);
+					gotPlace = true;
+				}
+			}
 		}
-		player.setXY(x, y);
-		return player;
+	}
+	
+	public boolean noPlayersOnSpace(ArrayList<Player> players, int xPos, int yPos) {
+		for(int i = 0; i <= players.size() -1; i++) {
+			if(players.get(i).getX() == xPos || players.get(i).getY() == yPos) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public char getCharAtPos(int x, int y, ArrayList<Player> players) {
